@@ -2,7 +2,7 @@
 // Created by lovro on 11/5/25.
 //
 
-#include "smolgpio.h"
+#include "smallgpio.h"
 
 void sgpioSet(sgpio* pGpio, bool pX)
 {

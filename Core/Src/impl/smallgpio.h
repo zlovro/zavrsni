@@ -2,8 +2,8 @@
 // Created by lovro on 11/5/25.
 //
 
-#ifndef DVD_F411_SMOLGPIO_H
-#define DVD_F411_SMOLGPIO_H
+#ifndef DVD_F411_SMALLGPIO_H
+#define DVD_F411_SMALLGPIO_H
 
 #include <stdint.h>
 #include <stm32f4xx_hal.h>
@@ -22,4 +22,4 @@ void sgpioSet(sgpio* pGpio, bool pX);
 #define sgpioHigh(g) sgpioSet(g, true)
 #define sgpioLow(g) sgpioSet(g, false)
 
-#endif //DVD_F411_SMOLGPIO_H
+#endif //DVD_F411_SMALLGPIO_H

@@ -35,11 +35,13 @@ message("Build type: " ${CMAKE_BUILD_TYPE})
 
 # Create an executable object type
 add_executable(${CMAKE_PROJECT_NAME}
-        Core/Src/impl/smolgpio.c
+        Core/Src/impl/smallgpio.c
         Core/Src/impl/uc1609c.c
         Core/Src/impl/uc1609c.h
         Core/Src/impl/lcd_image.c
         Core/Src/impl/math_util.h
+        Core/Src/impl/pcm3060.c
+        Core/Src/impl/pcm3060.h
 )
 
 # Add STM32CubeMX generated sources
