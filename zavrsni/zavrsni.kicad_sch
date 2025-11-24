@@ -5416,6 +5416,16 @@
 		)
 		(uuid f46e6a3f-51fd-47c9-b2a5-3294a20dab3d)
 	)
+	(text "SPI"
+		(exclude_from_sim no)
+		(at 347.218 251.968 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "59befd88-ee16-4703-a297-13e33aa1b581")
+	)
 	(text "Ograničavanje napona zvučnog signala između 0V i +5V"
 		(exclude_from_sim no)
 		(at 240.538 234.188 0)
@@ -5669,12 +5679,6 @@
 		(uuid "74a26e55-f219-4392-9499-e8aadcae3e5d")
 	)
 	(junction
-		(at 349.25 254)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "77914a53-3d79-4163-88bc-4a8bc45e0a9a")
-	)
-	(junction
 		(at 44.45 133.35)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -5703,12 +5707,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "7daca91e-61df-411a-a295-ced3cce17780")
-	)
-	(junction
-		(at 347.98 226.06)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "7e51abc6-ba15-4123-92ab-e1bb52e2192a")
 	)
 	(junction
 		(at 179.07 157.48)
@@ -5996,16 +5994,6 @@
 	)
 	(wire
 		(pts
-			(xy 349.25 254) (xy 350.52 254)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "021f8bcd-da1e-4ad8-83ca-0904afca9cb3")
-	)
-	(wire
-		(pts
 			(xy 425.45 194.31) (xy 425.45 193.04)
 		)
 		(stroke
@@ -6086,6 +6074,16 @@
 	)
 	(wire
 		(pts
+			(xy 335.28 248.92) (xy 350.52 248.92)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0e3e1c90-5f4f-462d-86fb-3ad953362c41")
+	)
+	(wire
+		(pts
 			(xy 336.55 196.85) (xy 336.55 243.84)
 		)
 		(stroke
@@ -6143,16 +6141,6 @@
 			(type default)
 		)
 		(uuid "18fa23c6-731e-4331-9568-7887159748f1")
-	)
-	(wire
-		(pts
-			(xy 349.25 255.27) (xy 349.25 254)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "191a042e-7a3f-4b18-aac5-ab6ea317f521")
 	)
 	(wire
 		(pts
@@ -6523,16 +6511,6 @@
 			(type default)
 		)
 		(uuid "34e5584c-53d8-484a-8923-5fbe76360b4d")
-	)
-	(wire
-		(pts
-			(xy 344.17 251.46) (xy 350.52 251.46)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "350dbf14-b4db-4020-864a-4b98c7771911")
 	)
 	(wire
 		(pts
@@ -7286,16 +7264,6 @@
 	)
 	(wire
 		(pts
-			(xy 350.52 248.92) (xy 349.25 248.92)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "77e277ec-1595-4be5-9d32-31ce5c372663")
-	)
-	(wire
-		(pts
 			(xy 107.95 281.94) (xy 107.95 290.83)
 		)
 		(stroke
@@ -7556,16 +7524,6 @@
 	)
 	(wire
 		(pts
-			(xy 344.17 226.06) (xy 344.17 251.46)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "908b3034-7f8d-4049-b37c-0473d7dab2cb")
-	)
-	(wire
-		(pts
 			(xy 179.07 153.67) (xy 179.07 157.48)
 		)
 		(stroke
@@ -7713,16 +7671,6 @@
 			(type default)
 		)
 		(uuid "984533d5-f2ff-4026-a255-25a1b86061c9")
-	)
-	(wire
-		(pts
-			(xy 349.25 248.92) (xy 349.25 254)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "987b28de-d47b-4fc6-bfa7-304224989181")
 	)
 	(wire
 		(pts
@@ -8003,16 +7951,6 @@
 			(type default)
 		)
 		(uuid "af9bd088-5202-4604-a131-965e1673ef36")
-	)
-	(wire
-		(pts
-			(xy 347.98 226.06) (xy 344.17 226.06)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "b00fce42-4ecd-46de-bc90-3a82b3b09886")
 	)
 	(wire
 		(pts
@@ -8893,6 +8831,16 @@
 			(justify left bottom)
 		)
 		(uuid "65a9558a-2714-40c7-87e4-d5fa31ee09ba")
+	)
+	(label "PCM_CS"
+		(at 342.9 248.92 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "72f7b255-fb13-4f39-8081-945ef47610e8")
 	)
 	(label "PCM_ADC_LR"
 		(at 331.47 163.83 0)
@@ -11762,6 +11710,73 @@
 		)
 	)
 	(symbol
+		(lib_id "power:+3V3")
+		(at 350.52 254 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "63dbe8f2-629c-4179-85be-3fdb7a389f91")
+		(property "Reference" "#PWR027"
+			(at 354.33 254 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+3V3"
+			(at 346.71 253.9999 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 350.52 254 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 350.52 254 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"+3V3\""
+			(at 350.52 254 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "186f8c23-4e17-43f7-8cc9-c2146cac2ee5")
+		)
+		(instances
+			(project "zavrsni"
+				(path "/22cdc1b5-9057-4680-8669-7a02483bacee"
+					(reference "#PWR027")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:C_Small")
 		(at 354.33 231.14 90)
 		(mirror x)
@@ -13461,73 +13476,6 @@
 			(project "zavrsni"
 				(path "/22cdc1b5-9057-4680-8669-7a02483bacee"
 					(reference "#PWR03")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GNDREF")
-		(at 349.25 255.27 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "bbf4af02-3691-4779-8ad2-54cb49dd1b74")
-		(property "Reference" "#PWR026"
-			(at 349.25 261.62 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GNDREF"
-			(at 349.25 260.35 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Footprint" ""
-			(at 349.25 255.27 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 349.25 255.27 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GNDREF\" , reference supply ground"
-			(at 349.25 255.27 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "a781c22e-3bfb-49a2-8372-12e5f98253d9")
-		)
-		(instances
-			(project "zavrsni"
-				(path "/22cdc1b5-9057-4680-8669-7a02483bacee"
-					(reference "#PWR026")
 					(unit 1)
 				)
 			)

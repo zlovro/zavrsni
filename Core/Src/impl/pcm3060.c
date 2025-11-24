@@ -9,14 +9,12 @@
 #include "main.h"
 
 sgpio *            gPcmGpioVcc = NULL;
-I2C_HandleTypeDef *gPcmI2c     = NULL;
+sgpio *            gPcmGpioMs  = NULL;
+SPI_HandleTypeDef *gPcmSpi     = NULL;
 I2S_HandleTypeDef *gPcmI2sDac  = NULL;
 I2S_HandleTypeDef *gPcmI2sAdc  = NULL;
 
-uint8_t gPcmI2cAddress = 0b10001100;
-
-void    pcmWriteRegister(uint8_t pReg, uint8_t pValue);
-uint8_t pcmReadRegister(uint8_t pReg);
+void pcmWriteRegister(uint8_t pReg, uint8_t pValue);
 
 typedef enum : uint8_t
 {
@@ -27,21 +25,17 @@ typedef enum : uint8_t
     PCM_IF_MODE_MASTER_256FS = 0b100,
 } pcmInterfaceMode;
 
-uint8_t pcmReadRegister(uint8_t pReg)
+enum : uint8_t
 {
-    uint8_t           out;
-    HAL_StatusTypeDef ret = HAL_I2C_Mem_Read(gPcmI2c, gPcmI2cAddress, pReg, I2C_MEMADD_SIZE_8BIT, &out, 1, 1000);
-    if (ret != HAL_OK)
-    {
-        Error_Handler();
-    }
-
-    return out;
-}
+    PCM_DEFAULT_REGISTER_VALUE_64 = 0b11110000,
+    PCM_DEFAULT_REGISTER_VALUE_67 = 0b00000000,
+    PCM_DEFAULT_REGISTER_VALUE_72 = 0b00000000,
+};
 
 void pcmWriteRegister(uint8_t pReg, uint8_t pValue)
 {
-    HAL_StatusTypeDef ret = HAL_I2C_Mem_Write(gPcmI2c, gPcmI2cAddress, pReg, I2C_MEMADD_SIZE_8BIT, &pValue, 1, 1000);
+    uint16_t          encoded = (pValue << 8) | pReg;
+    HAL_StatusTypeDef ret     = HAL_SPI_Transmit(gPcmSpi, (uint8_t *) &encoded, 1, 1000);
     if (ret != HAL_OK)
     {
         Error_Handler();
@@ -55,12 +49,21 @@ void pcmWriteRegister(uint8_t pReg, uint8_t pValue)
  */
 void pcmSetInterfaceMode(const bool pForDac, const pcmInterfaceMode pMode)
 {
-    const uint8_t reg = pForDac ? 67 : 72;
+    uint8_t regIdx, regVal;
+    if (pForDac)
+    {
+        regIdx = 67;
+        regVal = PCM_DEFAULT_REGISTER_VALUE_67;
+    }
+    else
+    {
+        regIdx = 72;
+        regVal = PCM_DEFAULT_REGISTER_VALUE_72;
+    }
 
     // set M/S of DAC/ADC
-    uint8_t val = pcmReadRegister(reg);
-    val         = (val & 0b10001111) | pMode << 4;
-    pcmWriteRegister(reg, val);
+    regVal = (regVal & 0b10001111) | pMode << 4;
+    pcmWriteRegister(regIdx, regVal);
 }
 
 typedef enum : uint8_t
@@ -78,36 +81,49 @@ typedef enum : uint8_t
  */
 void pcmSetInterfaceFormat(const bool pForDac, const pcmInterfaceFormat pFmt)
 {
-    const uint8_t reg = pForDac ? 67 : 72;
+    uint8_t regIdx, regVal;
+    if (pForDac)
+    {
+        regIdx = 67;
+        regVal = PCM_DEFAULT_REGISTER_VALUE_67;
+    }
+    else
+    {
+        regIdx = 72;
+        regVal = PCM_DEFAULT_REGISTER_VALUE_72;
+    }
 
     // set FMT of DAC/ADC
-    uint8_t val = pcmReadRegister(reg);
-    val         = (val & ~0b11) | pFmt;
-    pcmWriteRegister(reg, val);
+    regVal = (regVal & ~0b11) | pFmt;
+    pcmWriteRegister(regIdx, regVal);
 }
 
 /**
  *
+ * @param pGpioRst
+ * @param pGpioMs
  * @param pSckiTim
- * @param pI2c
+ * @param pSpi
  * @param pI2sAdc
  * @param pI2sDac
- * @param pGpioAdrSet state of the ADR pin (pin 27) of the PCM3060 IC
  */
-void pcmInit(sgpio *pGpioRst, TIM_HandleTypeDef *pSckiTim, I2C_HandleTypeDef *pI2c, I2S_HandleTypeDef *pI2sAdc, I2S_HandleTypeDef *pI2sDac, const bool pGpioAdrSet)
+void pcmInit(sgpio *pGpioRst, sgpio *pGpioMs, TIM_HandleTypeDef *pSckiTim, SPI_HandleTypeDef *pSpi, I2S_HandleTypeDef *pI2sAdc, I2S_HandleTypeDef *pI2sDac)
 {
-    gPcmI2c    = pI2c;
+    gPcmGpioMs = pGpioMs;
+    gPcmSpi    = pSpi;
     gPcmI2sAdc = pI2sAdc;
     gPcmI2sDac = pI2sDac;
-
-    gPcmI2cAddress |= pGpioAdrSet << 1;
 
     sgpioLow(pGpioRst);
     HAL_Delay(10);
     sgpioHigh(pGpioRst);
 
-    HAL_TIM_Base_Start(pSckiTim);
+    HAL_TIM_PWM_Start(pSckiTim, 0);
     HAL_Delay(5);
+
+    // clear ADPSV and DAPSV bits (turn on the IC)
+    // set DAC to single-ended mode
+    pcmWriteRegister(64, (PCM_DEFAULT_REGISTER_VALUE_64 & 0b11001111) | 1);
 
     pcmSetInterfaceMode(true, PCM_IF_MODE_SLAVE);
     pcmSetInterfaceMode(false, PCM_IF_MODE_MASTER_256FS);
