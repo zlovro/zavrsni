@@ -12,10 +12,10 @@
 
 extern sgpio *            gPcmGpioVcc;
 extern sgpio *            gPcmGpioMs;
-extern SPI_HandleTypeDef *gPcmSpi;
+extern I2C_HandleTypeDef *gPcmI2c;
 extern I2S_HandleTypeDef *gPcmI2sDac;
 extern I2S_HandleTypeDef *gPcmI2sAdc;
 
-void pcmInit(sgpio *pGpioRst, sgpio *pGpioMs, TIM_HandleTypeDef *pSckiTim, SPI_HandleTypeDef *pSpi, I2S_HandleTypeDef *pI2sAdc, I2S_HandleTypeDef *pI2sDac);
+void pcmInit(sgpio *pGpioRst, TIM_HandleTypeDef *pSckiTim, I2C_HandleTypeDef *pI2c, I2S_HandleTypeDef *pI2sAdc, I2S_HandleTypeDef *pI2sDac);
 
 #endif //PCM3060_H

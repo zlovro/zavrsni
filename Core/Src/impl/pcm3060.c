@@ -6,15 +6,20 @@
 // ReSharper disable CppRedundantParentheses
 #include "pcm3060.h"
 
+#include <stdio.h>
+
 #include "main.h"
 
 sgpio *            gPcmGpioVcc = NULL;
 sgpio *            gPcmGpioMs  = NULL;
-SPI_HandleTypeDef *gPcmSpi     = NULL;
+I2C_HandleTypeDef *gPcmI2c     = NULL;
 I2S_HandleTypeDef *gPcmI2sDac  = NULL;
 I2S_HandleTypeDef *gPcmI2sAdc  = NULL;
 
-void pcmWriteRegister(uint8_t pReg, uint8_t pValue);
+void    pcmWriteRegister(uint8_t pReg, uint8_t pValue);
+uint8_t pcmReadRegister(uint8_t pReg);
+
+#define PCM3060_I2C_ADDRESS ((0b01000110 | 0) << 1)
 
 typedef enum : uint8_t
 {
@@ -34,12 +39,30 @@ enum : uint8_t
 
 void pcmWriteRegister(uint8_t pReg, uint8_t pValue)
 {
-    uint16_t          encoded = (pValue << 8) | pReg;
-    HAL_StatusTypeDef ret     = HAL_SPI_Transmit(gPcmSpi, (uint8_t *) &encoded, 1, 1000);
+    uint8_t           data[2] = {pReg, pValue};
+    HAL_StatusTypeDef ret     = HAL_I2C_Master_Transmit(gPcmI2c, PCM3060_I2C_ADDRESS, data, 2, 1000);
     if (ret != HAL_OK)
     {
         Error_Handler();
     }
+}
+
+uint8_t pcmReadRegister(uint8_t pReg)
+{
+    HAL_StatusTypeDef ret = HAL_I2C_Master_Transmit(gPcmI2c, PCM3060_I2C_ADDRESS, &pReg, 1, 1000);
+    if (ret != HAL_OK)
+    {
+        Error_Handler();
+    }
+
+    uint8_t val;
+    ret = HAL_I2C_Master_Receive(gPcmI2c, PCM3060_I2C_ADDRESS, &val, 1, 1000);
+    if (ret != HAL_OK)
+    {
+        Error_Handler();
+    }
+
+    return val;
 }
 
 /**
@@ -49,21 +72,12 @@ void pcmWriteRegister(uint8_t pReg, uint8_t pValue)
  */
 void pcmSetInterfaceMode(const bool pForDac, const pcmInterfaceMode pMode)
 {
-    uint8_t regIdx, regVal;
-    if (pForDac)
-    {
-        regIdx = 67;
-        regVal = PCM_DEFAULT_REGISTER_VALUE_67;
-    }
-    else
-    {
-        regIdx = 72;
-        regVal = PCM_DEFAULT_REGISTER_VALUE_72;
-    }
+    const uint8_t regIdx = pForDac ? 67 : 72;
+    uint8_t       val    = pcmReadRegister(regIdx);
 
     // set M/S of DAC/ADC
-    regVal = (regVal & 0b10001111) | pMode << 4;
-    pcmWriteRegister(regIdx, regVal);
+    val = (val & 0b10001111) | pMode << 4;
+    pcmWriteRegister(regIdx, val);
 }
 
 typedef enum : uint8_t
@@ -81,17 +95,8 @@ typedef enum : uint8_t
  */
 void pcmSetInterfaceFormat(const bool pForDac, const pcmInterfaceFormat pFmt)
 {
-    uint8_t regIdx, regVal;
-    if (pForDac)
-    {
-        regIdx = 67;
-        regVal = PCM_DEFAULT_REGISTER_VALUE_67;
-    }
-    else
-    {
-        regIdx = 72;
-        regVal = PCM_DEFAULT_REGISTER_VALUE_72;
-    }
+    const uint8_t regIdx = pForDac ? 67 : 72;
+    uint8_t       regVal = pcmReadRegister(regIdx);
 
     // set FMT of DAC/ADC
     regVal = (regVal & ~0b11) | pFmt;
@@ -101,31 +106,42 @@ void pcmSetInterfaceFormat(const bool pForDac, const pcmInterfaceFormat pFmt)
 /**
  *
  * @param pGpioRst
- * @param pGpioMs
  * @param pSckiTim
- * @param pSpi
+ * @param pI2c
  * @param pI2sAdc
  * @param pI2sDac
  */
-void pcmInit(sgpio *pGpioRst, sgpio *pGpioMs, TIM_HandleTypeDef *pSckiTim, SPI_HandleTypeDef *pSpi, I2S_HandleTypeDef *pI2sAdc, I2S_HandleTypeDef *pI2sDac)
+void pcmInit(sgpio *pGpioRst, TIM_HandleTypeDef *pSckiTim, I2C_HandleTypeDef *pI2c, I2S_HandleTypeDef *pI2sAdc, I2S_HandleTypeDef *pI2sDac)
 {
-    gPcmGpioMs = pGpioMs;
-    gPcmSpi    = pSpi;
+    sgpioHigh(pGpioRst);
+
+    while (true)
+    {
+        if (HAL_I2C_IsDeviceReady(pI2c, PCM3060_I2C_ADDRESS, 10, 500))
+        {
+            break;
+        }
+    }
+
+    gPcmI2c    = pI2c;
     gPcmI2sAdc = pI2sAdc;
     gPcmI2sDac = pI2sDac;
 
     sgpioLow(pGpioRst);
-    HAL_Delay(10);
+    HAL_Delay(50);
+
+    pcmWriteRegister(64, PCM_DEFAULT_REGISTER_VALUE_64);
+    HAL_Delay(50);
+
+    // clear ADPSV and DAPSV bits (turn on the IC)
+    // set DAC to single-ended mode
+    pcmWriteRegister(64, (PCM_DEFAULT_REGISTER_VALUE_64 & 0b11001111) | 1);
     sgpioHigh(pGpioRst);
 
     HAL_TIM_PWM_Start(pSckiTim, 0);
     HAL_Delay(5);
 
-    // clear ADPSV and DAPSV bits (turn on the IC)
-    // set DAC to single-ended mode
-    pcmWriteRegister(64, (PCM_DEFAULT_REGISTER_VALUE_64 & 0b11001111) | 1);
-
-    pcmSetInterfaceMode(true, PCM_IF_MODE_SLAVE);
+    pcmSetInterfaceMode(true, PCM_IF_MODE_MASTER_256FS);
     pcmSetInterfaceMode(false, PCM_IF_MODE_MASTER_256FS);
 
     pcmSetInterfaceFormat(true, PCM_IF_FMT_24B_I2S);
