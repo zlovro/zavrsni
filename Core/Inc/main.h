@@ -60,10 +60,7 @@ void Error_Handler(void);
 
 /* Private defines -----------------------------------------------------------*/
 #define TIM2_usage "PCM SCKI"
-#define PCM_RST_Pin GPIO_PIN_15
-#define PCM_RST_GPIO_Port GPIOC
-#define I2S_OUT_LR_Pin GPIO_PIN_4
-#define I2S_OUT_LR_GPIO_Port GPIOA
+#define TIM3_usage "ADC clock"
 #define LCD_SCK_Pin GPIO_PIN_5
 #define LCD_SCK_GPIO_Port GPIOA
 #define LCD_RST_Pin GPIO_PIN_6
@@ -76,18 +73,8 @@ void Error_Handler(void);
 #define LCD_CD_GPIO_Port GPIOB
 #define LCD_VCC_Pin GPIO_PIN_2
 #define LCD_VCC_GPIO_Port GPIOB
-#define I2S_OUT_BCK_Pin GPIO_PIN_12
-#define I2S_OUT_BCK_GPIO_Port GPIOB
-#define I2S_IN_BCK_Pin GPIO_PIN_13
-#define I2S_IN_BCK_GPIO_Port GPIOB
-#define I2S_IN_DAT_Pin GPIO_PIN_15
-#define I2S_IN_DAT_GPIO_Port GPIOB
-#define PCM_SCKI_Pin GPIO_PIN_15
-#define PCM_SCKI_GPIO_Port GPIOA
-#define I2S_OUT_DAT_Pin GPIO_PIN_5
-#define I2S_OUT_DAT_GPIO_Port GPIOB
-#define I2S_IN_LR_Pin GPIO_PIN_9
-#define I2S_IN_LR_GPIO_Port GPIOB
+#define DAC_MCLK_Pin GPIO_PIN_15
+#define DAC_MCLK_GPIO_Port GPIOA
 
 /* USER CODE BEGIN Private defines */
 

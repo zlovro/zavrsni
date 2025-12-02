@@ -40,6 +40,8 @@ enum : uint8_t
 void pcmWriteRegister(uint8_t pReg, uint8_t pValue)
 {
     uint8_t           data[2] = {pReg, pValue};
+
+    while (true) if (gPcmI2c->State == HAL_I2C_STATE_READY) break;
     HAL_StatusTypeDef ret     = HAL_I2C_Master_Transmit(gPcmI2c, PCM3060_I2C_ADDRESS, data, 2, 1000);
     if (ret != HAL_OK)
     {
@@ -49,6 +51,7 @@ void pcmWriteRegister(uint8_t pReg, uint8_t pValue)
 
 uint8_t pcmReadRegister(uint8_t pReg)
 {
+    while (true) if (gPcmI2c->State == HAL_I2C_STATE_READY) break;
     HAL_StatusTypeDef ret = HAL_I2C_Master_Transmit(gPcmI2c, PCM3060_I2C_ADDRESS, &pReg, 1, 1000);
     if (ret != HAL_OK)
     {
@@ -56,6 +59,8 @@ uint8_t pcmReadRegister(uint8_t pReg)
     }
 
     uint8_t val;
+
+    while (true) if (gPcmI2c->State == HAL_I2C_STATE_READY) break;
     ret = HAL_I2C_Master_Receive(gPcmI2c, PCM3060_I2C_ADDRESS, &val, 1, 1000);
     if (ret != HAL_OK)
     {
@@ -113,7 +118,11 @@ void pcmSetInterfaceFormat(const bool pForDac, const pcmInterfaceFormat pFmt)
  */
 void pcmInit(sgpio *pGpioRst, TIM_HandleTypeDef *pSckiTim, I2C_HandleTypeDef *pI2c, I2S_HandleTypeDef *pI2sAdc, I2S_HandleTypeDef *pI2sDac)
 {
+    sgpioLow(pGpioRst);
+    HAL_Delay(50);
+
     sgpioHigh(pGpioRst);
+    HAL_Delay(50);
 
     while (true)
     {
@@ -129,6 +138,12 @@ void pcmInit(sgpio *pGpioRst, TIM_HandleTypeDef *pSckiTim, I2C_HandleTypeDef *pI
 
     sgpioLow(pGpioRst);
     HAL_Delay(50);
+
+    for (int r = 64; r <= 73; r++)
+    {
+        uint8_t val = pcmReadRegister(r);
+        printf("register 0x%02x = 0x%02x\n", r, val);
+    }
 
     pcmWriteRegister(64, PCM_DEFAULT_REGISTER_VALUE_64);
     HAL_Delay(50);
