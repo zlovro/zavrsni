@@ -6,6 +6,9 @@
 #ifndef PCM3060_H
 #define PCM3060_H
 
+#define NO_PCM3060
+#ifndef NO_PCM3060
+
 #include <stm32f4xx_hal.h>
 
 #include "smallgpio.h"
@@ -17,5 +20,7 @@ extern I2S_HandleTypeDef *gPcmI2sDac;
 extern I2S_HandleTypeDef *gPcmI2sAdc;
 
 void pcmInit(sgpio *pGpioRst, TIM_HandleTypeDef *pSckiTim, I2C_HandleTypeDef *pI2c, I2S_HandleTypeDef *pI2sAdc, I2S_HandleTypeDef *pI2sDac);
+
+#endif
 
 #endif //PCM3060_H

@@ -6,8 +6,9 @@
 // ReSharper disable CppRedundantParentheses
 #include "pcm3060.h"
 
-#include <stdio.h>
+#ifndef NO_PCM3060
 
+#include <stdio.h>
 #include "main.h"
 
 sgpio *            gPcmGpioVcc = NULL;
@@ -39,10 +40,10 @@ enum : uint8_t
 
 void pcmWriteRegister(uint8_t pReg, uint8_t pValue)
 {
-    uint8_t           data[2] = {pReg, pValue};
+    uint8_t data[2] = {pReg, pValue};
 
     while (true) if (gPcmI2c->State == HAL_I2C_STATE_READY) break;
-    HAL_StatusTypeDef ret     = HAL_I2C_Master_Transmit(gPcmI2c, PCM3060_I2C_ADDRESS, data, 2, 1000);
+    HAL_StatusTypeDef ret = HAL_I2C_Master_Transmit(gPcmI2c, PCM3060_I2C_ADDRESS, data, 2, 1000);
     if (ret != HAL_OK)
     {
         Error_Handler();
@@ -162,3 +163,5 @@ void pcmInit(sgpio *pGpioRst, TIM_HandleTypeDef *pSckiTim, I2C_HandleTypeDef *pI
     pcmSetInterfaceFormat(true, PCM_IF_FMT_24B_I2S);
     pcmSetInterfaceFormat(false, PCM_IF_FMT_24B_I2S);
 }
+
+#endif

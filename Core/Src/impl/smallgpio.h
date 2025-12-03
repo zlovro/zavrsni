@@ -17,7 +17,8 @@ typedef struct
 
 #define SGPIO_FROM_MACRO(name) ((sgpio){.pin = name ## _Pin, .port = name ## _GPIO_Port})
 
-void sgpioSet(sgpio* pGpio, bool pX);
+#define sgpioSet(pGpio, pX) (pGpio)->port->BSRR = (pGpio)->pin << (!(pX) * 16)
+#define sgpioGet(pGpio) ((pGpio)->port->IDR & (pGpio)->pin)
 
 #define sgpioHigh(g) sgpioSet(g, true)
 #define sgpioLow(g) sgpioSet(g, false)
