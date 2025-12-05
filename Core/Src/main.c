@@ -373,7 +373,7 @@ static void MX_DMA_Init(void)
 
   /* DMA interrupt init */
   /* DMA1_Stream4_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA1_Stream4_IRQn, 13, 0);
+  HAL_NVIC_SetPriority(DMA1_Stream4_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(DMA1_Stream4_IRQn);
   /* DMA2_Stream0_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(DMA2_Stream0_IRQn, 14, 0);
@@ -437,9 +437,9 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(BTN_OK_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : BTN_UP_Pin BTN_DOWN_Pin BTN_PRESET_3_Pin BTN_PRESET_2_Pin
-                           BTN_PRESET_1_Pin BTN_PRESET_0_Pin */
+                           BTN_PRESET_1_Pin BTN_PRESET_0_Pin BTN_TUNER_Pin */
   GPIO_InitStruct.Pin = BTN_UP_Pin|BTN_DOWN_Pin|BTN_PRESET_3_Pin|BTN_PRESET_2_Pin
-                          |BTN_PRESET_1_Pin|BTN_PRESET_0_Pin;
+                          |BTN_PRESET_1_Pin|BTN_PRESET_0_Pin|BTN_TUNER_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);

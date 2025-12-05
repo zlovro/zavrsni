@@ -72,10 +72,10 @@ void Error_Handler(void);
 #define LCD_CD_GPIO_Port GPIOB
 #define LCD_VCC_Pin GPIO_PIN_2
 #define LCD_VCC_GPIO_Port GPIOB
-#define DAC_BCLK_Pin GPIO_PIN_10
-#define DAC_BCLK_GPIO_Port GPIOB
 #define DAC_LRCLK_Pin GPIO_PIN_12
 #define DAC_LRCLK_GPIO_Port GPIOB
+#define DAC_BCLK_Pin GPIO_PIN_13
+#define DAC_BCLK_GPIO_Port GPIOB
 #define DAC_DAT_Pin GPIO_PIN_15
 #define DAC_DAT_GPIO_Port GPIOB
 #define BTN_OK_Pin GPIO_PIN_15
@@ -96,9 +96,12 @@ void Error_Handler(void);
 #define BTN_PRESET_1_Pin GPIO_PIN_7
 #define BTN_PRESET_1_GPIO_Port GPIOB
 #define BTN_PRESET_1_EXTI_IRQn EXTI9_5_IRQn
-#define BTN_PRESET_0_Pin GPIO_PIN_9
+#define BTN_PRESET_0_Pin GPIO_PIN_8
 #define BTN_PRESET_0_GPIO_Port GPIOB
 #define BTN_PRESET_0_EXTI_IRQn EXTI9_5_IRQn
+#define BTN_TUNER_Pin GPIO_PIN_9
+#define BTN_TUNER_GPIO_Port GPIOB
+#define BTN_TUNER_EXTI_IRQn EXTI9_5_IRQn
 
 /* USER CODE BEGIN Private defines */
 
