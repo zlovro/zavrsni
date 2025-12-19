@@ -14182,7 +14182,7 @@
 	)
 	(symbol
 		(lib_id "Diode:1N4148")
-		(at 328.93 233.045 270)
+		(at 328.93 233.045 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -14196,7 +14196,7 @@
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
+				(justify right)
 			)
 		)
 		(property "Value" "1N4148"
@@ -14205,7 +14205,7 @@
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
+				(justify right)
 			)
 		)
 		(property "Footprint" "Diode_THT:D_DO-35_SOD27_P2.54mm_Vertical_AnodeUp"
@@ -14629,7 +14629,7 @@
 	)
 	(symbol
 		(lib_id "Diode:1N4148")
-		(at 299.72 233.045 270)
+		(at 299.72 233.045 90)
 		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
@@ -14638,7 +14638,7 @@
 		(dnp no)
 		(uuid "d3d75e79-b287-4527-aecf-b1e674cc8d0e")
 		(property "Reference" "D1"
-			(at 297.18 231.7749 90)
+			(at 302.26 234.3151 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14647,7 +14647,7 @@
 			)
 		)
 		(property "Value" "1N4148"
-			(at 297.18 234.3149 90)
+			(at 302.26 231.7751 90)
 			(effects
 				(font
 					(size 1.27 1.27)
