@@ -188,7 +188,9 @@
       ],
       "track_widths": [
         0.0,
+        0.8,
         1.0,
+        1.5,
         2.0
       ],
       "tuning_pattern_settings": {
@@ -481,7 +483,7 @@
     "classes": [
       {
         "bus_width": 12,
-        "clearance": 0.4,
+        "clearance": 0.5,
         "diff_pair_gap": 0.6,
         "diff_pair_via_gap": 0.25,
         "diff_pair_width": 0.6,
@@ -670,7 +672,7 @@
   ],
   "text_variables": {
     "CRTAO": "Lovro Zednik",
-    "DATUM": "4.12.2025.",
+    "DATUM": "6.12.2025.",
     "IME_TIJELA": "Tehnička škola Daruvar",
     "MJERILO": "1:1",
     "NAZIV": "Pedala multiefekata za\\nelektričnu gitaru",

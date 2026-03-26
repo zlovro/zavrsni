@@ -49,6 +49,8 @@ extern "C" {
 
 /* USER CODE END EM */
 
+void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
+
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
 
@@ -57,51 +59,23 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define USR_TIM_ADC TIM3
-#define DAC_MCLK_Pin GPIO_PIN_3
-#define DAC_MCLK_GPIO_Port GPIOA
-#define LCD_SCK_Pin GPIO_PIN_5
-#define LCD_SCK_GPIO_Port GPIOA
-#define LCD_RST_Pin GPIO_PIN_6
+#define USR_TIM_MCLK TIM3
+#define USR_TIM_SCLK TIM4
+#define USR_TIM_FS TIM5
+#define LCD_RST_Pin GPIO_PIN_4
 #define LCD_RST_GPIO_Port GPIOA
-#define LCD_SDA_Pin GPIO_PIN_7
-#define LCD_SDA_GPIO_Port GPIOA
-#define LCD_CS_Pin GPIO_PIN_0
-#define LCD_CS_GPIO_Port GPIOB
-#define LCD_CD_Pin GPIO_PIN_1
-#define LCD_CD_GPIO_Port GPIOB
-#define LCD_VCC_Pin GPIO_PIN_2
-#define LCD_VCC_GPIO_Port GPIOB
-#define DAC_LRCLK_Pin GPIO_PIN_12
-#define DAC_LRCLK_GPIO_Port GPIOB
-#define DAC_BCLK_Pin GPIO_PIN_13
-#define DAC_BCLK_GPIO_Port GPIOB
-#define DAC_DAT_Pin GPIO_PIN_15
-#define DAC_DAT_GPIO_Port GPIOB
-#define BTN_OK_Pin GPIO_PIN_15
-#define BTN_OK_GPIO_Port GPIOA
-#define BTN_OK_EXTI_IRQn EXTI15_10_IRQn
-#define BTN_UP_Pin GPIO_PIN_3
-#define BTN_UP_GPIO_Port GPIOB
-#define BTN_UP_EXTI_IRQn EXTI3_IRQn
-#define BTN_DOWN_Pin GPIO_PIN_4
-#define BTN_DOWN_GPIO_Port GPIOB
-#define BTN_DOWN_EXTI_IRQn EXTI4_IRQn
-#define BTN_PRESET_3_Pin GPIO_PIN_5
-#define BTN_PRESET_3_GPIO_Port GPIOB
-#define BTN_PRESET_3_EXTI_IRQn EXTI9_5_IRQn
-#define BTN_PRESET_2_Pin GPIO_PIN_6
-#define BTN_PRESET_2_GPIO_Port GPIOB
-#define BTN_PRESET_2_EXTI_IRQn EXTI9_5_IRQn
-#define BTN_PRESET_1_Pin GPIO_PIN_7
-#define BTN_PRESET_1_GPIO_Port GPIOB
-#define BTN_PRESET_1_EXTI_IRQn EXTI9_5_IRQn
-#define BTN_PRESET_0_Pin GPIO_PIN_8
-#define BTN_PRESET_0_GPIO_Port GPIOB
-#define BTN_PRESET_0_EXTI_IRQn EXTI9_5_IRQn
-#define BTN_TUNER_Pin GPIO_PIN_9
-#define BTN_TUNER_GPIO_Port GPIOB
-#define BTN_TUNER_EXTI_IRQn EXTI9_5_IRQn
+#define LCD_CLK_Pin GPIO_PIN_5
+#define LCD_CLK_GPIO_Port GPIOA
+#define LCD_CS_Pin GPIO_PIN_6
+#define LCD_CS_GPIO_Port GPIOA
+#define LCD_DAT_Pin GPIO_PIN_7
+#define LCD_DAT_GPIO_Port GPIOA
+#define CODEC_LRCK_Pin GPIO_PIN_3
+#define CODEC_LRCK_GPIO_Port GPIOB
+#define CODEC_MCLK_Pin GPIO_PIN_4
+#define CODEC_MCLK_GPIO_Port GPIOB
+#define CODEC_SCLK_Pin GPIO_PIN_6
+#define CODEC_SCLK_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
 

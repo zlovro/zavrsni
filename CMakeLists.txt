@@ -8,9 +8,10 @@ cmake_minimum_required(VERSION 3.22)
 #
 
 # Setup compiler settings
-set(CMAKE_C_STANDARD 23)
+set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_EXTENSIONS ON)
+
 
 # Define the build type
 if(NOT CMAKE_BUILD_TYPE)
@@ -35,16 +36,8 @@ message("Build type: " ${CMAKE_BUILD_TYPE})
 
 # Create an executable object type
 add_executable(${CMAKE_PROJECT_NAME}
-        Core/Src/impl/uc1609c.c
-        Core/Src/impl/uc1609c.h
-        Core/Src/impl/lcd_image.c
-        Core/Src/impl/math_util.h
-        Core/Src/impl/pcm3060.c
-        Core/Src/impl/pcm3060.h
-        Core/Src/impl/cs4335.c
-        Core/Src/impl/cs4335.h
-        Core/Src/impl/sound_io.c
-        Core/Src/impl/sound_io.h
+        Core/Src/main.c
+        Core/Src/types.h
 )
 
 # Add STM32CubeMX generated sources
@@ -63,6 +56,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
 # Add include paths
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user defined include paths
+        Core/Src
 )
 
 # Add project symbols (macros)
