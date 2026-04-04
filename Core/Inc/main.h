@@ -65,6 +65,12 @@ void Error_Handler(void);
 #define USR_CODEC_DBG 1
 #define USR_TIM_DBG_LED &htim11
 #define USR_TIM_DBG_LED_RAW TIM11
+#define ROT_B_Pin GPIO_PIN_13
+#define ROT_B_GPIO_Port GPIOC
+#define ROT_A_Pin GPIO_PIN_14
+#define ROT_A_GPIO_Port GPIOC
+#define ROT_SW_Pin GPIO_PIN_15
+#define ROT_SW_GPIO_Port GPIOC
 #define CODEC_MCLK_Pin GPIO_PIN_3
 #define CODEC_MCLK_GPIO_Port GPIOA
 #define LCD_RST_Pin GPIO_PIN_4
