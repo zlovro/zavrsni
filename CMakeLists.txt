@@ -37,7 +37,7 @@ message("Build type: " ${CMAKE_BUILD_TYPE})
 # Create an executable object type
 add_executable(${CMAKE_PROJECT_NAME}
         Core/Src/main.c
-        Core/Src/types.h
+        Core/Src/impl/st7920.c
 )
 
 # Add STM32CubeMX generated sources

@@ -11,7 +11,7 @@
 
 #include "smallgpio.h"
 
-extern SPI_HandleTypeDef *st7920_spi;
+extern SPI_HandleTypeDef *st7920_spi = NULL;
 
 extern sgpio ST7920_PIN_CS  = SGPIO_FROM_MACRO(LCD_CS);
 extern sgpio ST7920_PIN_RST = SGPIO_FROM_MACRO(LCD_RST);
@@ -186,7 +186,7 @@ void st7920_DrawChar(char chr)
     }
 }
 
-void st7920_DrawStringLen(const char *str, u8 length)
+void st7920_DrawStringLen(char *str, u8 length)
 {
     for (int i = 0; i < length; ++i)
     {

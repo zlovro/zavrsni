@@ -1,4 +1,4 @@
-26876227501318897
+26879778053695597
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -106694,6 +106694,13 @@ Varistor VF
 2
 2
 ljepi
+6.35 horizontalni 4pin samesky
+
+
+0
+4
+4
+ljepi
 6.35 trs jack 6 pinova
 M Series, 6.35mm (1/4in) stereo jack, switched, with chrome ferrule and straight PCB pins, https://www.neutrik.com/en/product/nmj6hcd2
 neutrik jack m
@@ -106728,6 +106735,13 @@ GLCD_128x64_21M_V1.5
 0
 0
 0
+ljepi
+Jack_6.35mm_Neutrik_NMJ4HFD2_Horizontal
+M Series, 6.35mm (1/4in) mono jack, switched, with full threaded nose and straight PCB pins, https://www.neutrik.com/en/product/nmj4hfd2
+neutrik jack m
+0
+4
+4
 ljepi
 LCD_12864-21M_V1.5
 
