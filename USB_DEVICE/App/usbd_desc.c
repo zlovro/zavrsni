@@ -62,13 +62,13 @@
   * @{
   */
 
-#define USBD_VID     1155
+#define USBD_VID     0xFFFF
 #define USBD_LANGID_STRING     1033
-#define USBD_MANUFACTURER_STRING     "STMicroelectronics"
-#define USBD_PID_FS     22336
-#define USBD_PRODUCT_STRING_FS     "STM32 Audio Class"
-#define USBD_CONFIGURATION_STRING_FS     "AUDIO Config"
-#define USBD_INTERFACE_STRING_FS     "AUDIO Interface"
+#define USBD_MANUFACTURER_STRING     "Nate Higgers Co., JewJitsu ltd., Nucking Figgers ltd."
+#define USBD_PID_FS     0xFFFF
+#define USBD_PRODUCT_STRING_FS     "Nigger multiefekti"
+#define USBD_CONFIGURATION_STRING_FS     "Default configuration"
+#define USBD_INTERFACE_STRING_FS     "Default interface"
 
 #define USB_SIZ_BOS_DESC            0x0C
 

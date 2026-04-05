@@ -59,12 +59,6 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define USR_TIM_SCLK &htim4
-#define USR_TIM_FS &htim2
-#define USR_TIM_MCLK &htim3
-#define USR_CODEC_DBG 1
-#define USR_TIM_DBG_LED &htim11
-#define USR_TIM_DBG_LED_RAW TIM11
 #define ROT_B_Pin GPIO_PIN_13
 #define ROT_B_GPIO_Port GPIOC
 #define ROT_A_Pin GPIO_PIN_14

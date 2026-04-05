@@ -11,81 +11,81 @@
 
 #include "smallgpio.h"
 
-extern SPI_HandleTypeDef *st7920_spi = NULL;
+SPI_HandleTypeDef *ST7920_Spi = NULL;
 
-extern sgpio ST7920_PIN_CS  = SGPIO_FROM_MACRO(LCD_CS);
-extern sgpio ST7920_PIN_RST = SGPIO_FROM_MACRO(LCD_RST);
+sgpio ST7920_PIN_CS  = SGPIO_FROM_MACRO(LCD_CS);
+sgpio ST7920_PIN_RST = SGPIO_FROM_MACRO(LCD_RST);
 
-extern u8 st7920_frontBuf[64 * (7 + 32)] = {};
-extern u8 st7920_backBuf[1024]           = {};
+u8 ST7920_FrontBuf[64 * (7 + 32)] = {0};
+u8 ST7920_BackBuf[1024]           = {0};
 
-extern int st7920_cursorX = 0, st7920_cursorY = 0;
-extern int st7920_originX = 0, st7920_originY = 0;
-extern int st7920_wrapX   = 0;
+int ST7920_CursorX = 0, ST7920_CursorY = 0;
+int ST7920_OriginX = 0, ST7920_OriginY = 0;
+int ST7920_WrapX   = 0;
 
-void st7920_Init(SPI_HandleTypeDef *spi)
+void ST7920_Init(SPI_HandleTypeDef *spi)
 {
-    st7920_spi = spi;
+    ST7920_Spi = spi;
 
     for (int y = 0, i = 0; y < 64; y++)
     {
-        st7920_frontBuf[i++] = 0xF8;
-        st7920_frontBuf[i++] = (0x80 | y) & 0xF0;
-        st7920_frontBuf[i++] = (0x80 | (y << 4)) & 0xF0;
+        ST7920_FrontBuf[i++] = 0xF8;
+        ST7920_FrontBuf[i++] = (0x80 | y) & 0xF0;
+        ST7920_FrontBuf[i++] = (0x80 | (y << 4)) & 0xF0;
 
         int x = 0;
 
-        st7920_frontBuf[i++] = 0xF8;
-        st7920_frontBuf[i++] = (0x80 | x) & 0xF0;
-        st7920_frontBuf[i++] = (0x80 | (x << 4)) & 0xF0;
+        ST7920_FrontBuf[i++] = 0xF8;
+        ST7920_FrontBuf[i++] = (0x80 | x) & 0xF0;
+        ST7920_FrontBuf[i++] = (0x80 | (x << 4)) & 0xF0;
 
-        st7920_frontBuf[i++] = 0xFA;
+        ST7920_FrontBuf[i++] = 0xFA;
 
         i += 32;
     }
 
-    sgpioLow(&ST7920_PIN_RST);
+    SGPIO_Low(&ST7920_PIN_RST);
     HAL_Delay(100);
 
-    sgpioHigh(&ST7920_PIN_RST);
+    SGPIO_High(&ST7920_PIN_RST);
     HAL_Delay(100);
 
-    st7920_SendCommand(0x30);
+    ST7920_SendCommand(0x30);
     HAL_Delay(1);
 
-    st7920_SendCommand(0x30);
+    ST7920_SendCommand(0x30);
     HAL_Delay(1);
 
-    st7920_SendCommand(0x1);
+    ST7920_SendCommand(0x1);
     HAL_Delay(50);
 
-    st7920_SendCommand(0x6);
+    ST7920_SendCommand(0x6);
     HAL_Delay(1);
 
-    st7920_SendCommand(0xC);
+    ST7920_SendCommand(0xC);
     HAL_Delay(1);
 }
 
-void st7920_SendCommand(u8 data)
+void ST7920_SendCommand(u8 data)
 {
-    sgpioHigh(&ST7920_PIN_CS);
+    SGPIO_High(&ST7920_PIN_CS);
 
     u8 bytes[] = {0b11111000, data & 0xF0, data << 4};
-    HAL_SPI_Transmit(st7920_spi, bytes, 3, 1000);
+    HAL_SPI_Transmit(ST7920_Spi, bytes, 3, 1000);
 
-    sgpioLow(&ST7920_PIN_CS);
+    SGPIO_Low(&ST7920_PIN_CS);
 }
 
-void st7920_ClearBack()
+void ST7920_ClearBack()
 {
-    memset(st7920_backBuf, 0, 1024);
+    memset(ST7920_BackBuf, 0, 1024);
 }
 
-void st7920_BackToFront()
+void ST7920_BackToFront()
 {
     // the first byte is the sync byte. skip it.
-    u8 *dst = st7920_frontBuf + 7;
-    u8 *src = st7920_backBuf;
+    u8 *dst = ST7920_FrontBuf + 7;
+    u8 *src = ST7920_BackBuf;
 
     for (int i = 0; i < 64; i++)
     {
@@ -100,56 +100,56 @@ void st7920_BackToFront()
     }
 }
 
-void st7920_SendFrameDMA()
+void ST7920_SendFrameDMA()
 {
-    sgpioHigh(&ST7920_PIN_CS);
+    SGPIO_High(&ST7920_PIN_CS);
 
-    HAL_SPI_Transmit_DMA(st7920_spi, st7920_frontBuf, 1024 * 3);
+    HAL_SPI_Transmit_DMA(ST7920_Spi, ST7920_FrontBuf, 1024 * 3);
 
-    sgpioLow(&ST7920_PIN_CS);
+    SGPIO_Low(&ST7920_PIN_CS);
 }
 
-void st7920_SetOrigin(u8 x, u8 y)
+void ST7920_SetOrigin(u8 x, u8 y)
 {
-    st7920_originX = x;
-    st7920_originY = y;
+    ST7920_OriginX = x;
+    ST7920_OriginY = y;
 }
 
-void st7920_Seek(u8 x, u8 y)
+void ST7920_Seek(u8 x, u8 y)
 {
-    st7920_cursorX = x;
-    st7920_cursorY = y;
+    ST7920_CursorX = x;
+    ST7920_CursorY = y;
 }
 
 // drawing functions
 
-char st7920_printfBuf[256];
+char ST7920_PrintfBuf[256];
 
-void st7920_Printf(char *format, ...)
+void ST7920_Printf(char *format, ...)
 {
     va_list args;
     va_start(args, format);
 
-    vsprintf(st7920_printfBuf, format, args);
-    st7920_DrawString(st7920_printfBuf);
+    vsprintf(ST7920_PrintfBuf, format, args);
+    ST7920_DrawString(ST7920_PrintfBuf);
 
     va_end(args);
 }
 
-void st7920_PrintfCenteredInRect(char *format, u8 x, u8 y, u8 width, u8 height, bool vertically, bool horizontally, ...)
+void ST7920_PrintfCenteredInRect(char *format, u8 x, u8 y, u8 width, u8 height, bool vertically, bool horizontally, ...)
 {
     va_list args;
     va_start(args, format);
 
-    vsprintf(st7920_printfBuf, format, args);
-    st7920_DrawStringCenteredInRect(st7920_printfBuf, x, y, width, height, vertically, horizontally);
+    vsprintf(ST7920_PrintfBuf, format, args);
+    ST7920_DrawStringCenteredInRect(ST7920_PrintfBuf, x, y, width, height, vertically, horizontally);
 
     va_end(args);
 }
 
-void st7920_DrawChar(char chr)
+void ST7920_DrawChar(char chr)
 {
-    st7920_glyph *glyph = st7920_fontGlyphs + chr;
+    ST7920_Glyph *glyph = ST7920_fontGlyphs + chr;
 
     u8 drawingStartEnd = glyph->drawingStartEnd;
 
@@ -158,65 +158,65 @@ void st7920_DrawChar(char chr)
 
     int glyphWidth = ST7920_MONOSPACE ? 8 : 1 + drawingEnd - drawingStart;
 
-    if (st7920_cursorX + glyphWidth > st7920_wrapX)
+    if (ST7920_CursorX + glyphWidth > ST7920_WrapX)
     {
-        st7920_cursorX = st7920_originX;
-        st7920_cursorY += ST7920_LINE_HEIGHT;
+        ST7920_CursorX = ST7920_OriginX;
+        ST7920_CursorY += ST7920_LINE_HEIGHT;
     }
 
-    for (int localX = drawingStart, i = 0; i < glyphWidth && st7920_cursorX < st7920_wrapX; st7920_cursorX++, localX++, i++)
+    for (int localX = drawingStart, i = 0; i < glyphWidth && ST7920_CursorX < ST7920_WrapX; ST7920_CursorX++, localX++, i++)
     {
         u8 column = glyph->cols[localX];
 
-        u8 rightShift = st7920_cursorX % 8;
+        u8 rightShift = ST7920_CursorX % 8;
         u8 mask       = ~(0x80 >> rightShift);
 
-        for (int y = st7920_cursorY, j = 7; j >= 0 && y < 64; j--, y++)
+        for (int y = ST7920_CursorY, j = 7; j >= 0 && y < 64; j--, y++)
         {
-            u8  rowIdx = st7920_cursorX / 8;
+            u8  rowIdx = ST7920_CursorX / 8;
             u16 pxIdx  = y * 16 + rowIdx;
 
-            u8 row = st7920_backBuf[pxIdx];
+            u8 row = ST7920_BackBuf[pxIdx];
             row &= mask;
             u8 bit = column << j & 0x80;
             row |= bit >> rightShift;
 
-            st7920_backBuf[pxIdx] = row;
+            ST7920_BackBuf[pxIdx] = row;
         }
     }
 }
 
-void st7920_DrawStringLen(char *str, u8 length)
+void ST7920_DrawStringLen(char *str, u8 length)
 {
     for (int i = 0; i < length; ++i)
     {
         char c = *str++;
         if (c == '\n')
         {
-            st7920_cursorY += ST7920_LINE_HEIGHT;
-            st7920_cursorX = st7920_originX;
+            ST7920_CursorY += ST7920_LINE_HEIGHT;
+            ST7920_CursorX = ST7920_OriginX;
             continue;
         }
 
-        st7920_DrawChar(c);
-        st7920_cursorX += ST7920_FONT_SPACING_X;
+        ST7920_DrawChar(c);
+        ST7920_CursorX += ST7920_FONT_SPACING_X;
     }
 }
 
-void st7920_DrawString(char *str)
+void ST7920_DrawString(char *str)
 {
-    st7920_DrawStringLen(str, strlen(str));
+    ST7920_DrawStringLen(str, strlen(str));
 }
 
-void st7920_DrawStringLenCenteredInRect(char *str, u8 length, u8 x, u8 y, u8 width, u8 height, bool vertically, bool horizontally)
+void ST7920_DrawStringLenCenteredInRect(char *str, u8 length, u8 x, u8 y, u8 width, u8 height, bool vertically, bool horizontally)
 {
-    // st7920_DrawRectangle(x, y, width, height, 1);
+    // ST7920_DrawRectangle(x, y, width, height, 1);
 
     if (!vertically && !horizontally)
     {
-        st7920_SetOrigin(x, y);
-        st7920_cursorY = y;
-        st7920_DrawStringLen(str, length);
+        ST7920_SetOrigin(x, y);
+        ST7920_CursorY = y;
+        ST7920_DrawStringLen(str, length);
 
         return;
     }
@@ -232,7 +232,7 @@ void st7920_DrawStringLenCenteredInRect(char *str, u8 length, u8 x, u8 y, u8 wid
 
         if (c != '\n')
         {
-            st7920_glyph *glyph = st7920_fontGlyphs + c;
+            ST7920_Glyph *glyph = ST7920_fontGlyphs + c;
 
             u8 drawingStartEnd = glyph->drawingStartEnd;
 
@@ -254,7 +254,7 @@ void st7920_DrawStringLenCenteredInRect(char *str, u8 length, u8 x, u8 y, u8 wid
     f32 marginY = vertically ? (height - pixelHeight) / 2.0F : 0;
     f32 cursorY = marginY >= 0 ? y + marginY : y;
 
-    st7920_cursorY = cursorY;
+    ST7920_CursorY = cursorY;
 
     line        = 0;
     u8 lastLine = 0xFF;
@@ -266,36 +266,36 @@ void st7920_DrawStringLenCenteredInRect(char *str, u8 length, u8 x, u8 y, u8 wid
             f32 marginX = horizontally ? (width - lineLengths[line]) / 2.0F : 0;
             f32 cursorX = marginX >= 0 ? x + marginX : x;
 
-            // st7920_DrawRectangle(x, st7920_cursorY, marginX, ST7920_LINE_HEIGHT, 1);
+            // ST7920_DrawRectangle(x, ST7920_CursorY, marginX, ST7920_LINE_HEIGHT, 1);
 
-            st7920_originX = cursorX;
-            st7920_cursorX = cursorX;
+            ST7920_OriginX = cursorX;
+            ST7920_CursorX = cursorX;
         }
         lastLine = line;
 
-        // st7920_DrawRectangle(st7920_originX, st7920_cursorY, max(lineLengths[line], 1), ST7920_FONT_HEIGHT, 1);
+        // ST7920_DrawRectangle(ST7920_OriginY, ST7920_CursorY, max(lineLengths[line], 1), ST7920_FONT_HEIGHT, 1);
 
         char c = *str++;
         if (c == '\n')
         {
             line++;
-            st7920_cursorY += ST7920_LINE_HEIGHT;
+            ST7920_CursorY += ST7920_LINE_HEIGHT;
             continue;
         }
 
-        st7920_DrawChar(c);
-        st7920_cursorX += ST7920_FONT_SPACING_X;
+        ST7920_DrawChar(c);
+        ST7920_CursorX += ST7920_FONT_SPACING_X;
     }
 
-    st7920_cursorX = x;
+    ST7920_CursorX = x;
 }
 
-void st7920_DrawStringCenteredInRect(char *str, u8 x, u8 y, u8 width, u8 height, bool vertically, bool horizontally)
+void ST7920_DrawStringCenteredInRect(char *str, u8 x, u8 y, u8 width, u8 height, bool vertically, bool horizontally)
 {
-    st7920_DrawStringLenCenteredInRect(str, strlen(str), x, y, width, height, vertically, horizontally);
+    ST7920_DrawStringLenCenteredInRect(str, strlen(str), x, y, width, height, vertically, horizontally);
 }
 
-void st7920_DrawLineHorizontal(u8 x, u8 y, u8 length)
+void ST7920_DrawLineHorizontal(u8 x, u8 y, u8 length)
 {
     // ensure the line doesn't go off-screen
     u8 newLen = length;
@@ -311,10 +311,10 @@ void st7920_DrawLineHorizontal(u8 x, u8 y, u8 length)
     if (modX)
     {
         u8 leftShift = 8 - modX;
-        st7920_backBuf[yIdx + rowIdxStart] |= (1 << leftShift) - 1;
+        ST7920_BackBuf[yIdx + rowIdxStart] |= (1 << leftShift) - 1;
         if (leftShift > newLen)
         {
-            st7920_backBuf[yIdx + rowIdxStart] &= ~((1 << (newLen - modX)) - 1);
+            ST7920_BackBuf[yIdx + rowIdxStart] &= ~((1 << (newLen - modX)) - 1);
             return;
         }
 
@@ -330,17 +330,17 @@ void st7920_DrawLineHorizontal(u8 x, u8 y, u8 length)
     int rowIdx, i;
     for (i = 0, rowIdx = rowIdxStart; i < newLen / 8; rowIdx++, i++)
     {
-        st7920_backBuf[yIdx + rowIdx] = 0xFF;
+        ST7920_BackBuf[yIdx + rowIdx] = 0xFF;
     }
 
     u8 modLen = newLen & 7;
     if (modLen)
     {
-        st7920_backBuf[yIdx + rowIdx] |= ((1 << modLen) - 1) << (8 - modLen);
+        ST7920_BackBuf[yIdx + rowIdx] |= ((1 << modLen) - 1) << (8 - modLen);
     }
 }
 
-void st7920_DrawLineVertical(u8 x, u8 y, u8 length)
+void ST7920_DrawLineVertical(u8 x, u8 y, u8 length)
 {
     // ensure the line doesn't go off-screen
     u8 newLen = length;
@@ -354,25 +354,25 @@ void st7920_DrawLineVertical(u8 x, u8 y, u8 length)
 
     for (int i = 0; i < newLen; y++, i++)
     {
-        st7920_backBuf[(y * 16 + xIdx)] |= 0x80 >> shift;
+        ST7920_BackBuf[(y * 16 + xIdx)] |= 0x80 >> shift;
     }
 }
 
-void st7920_DrawRectangle(u8 x, u8 y, u8 width, u8 height, u8 thickness)
+void ST7920_DrawRectangle(u8 x, u8 y, u8 width, u8 height, u8 thickness)
 {
     for (int i = 0; i < thickness; ++i)
     {
         // vertical
-        st7920_DrawLineHorizontal(x, y + i, width);
-        st7920_DrawLineHorizontal(x, y + height - i - 1, width);
+        ST7920_DrawLineHorizontal(x, y + i, width);
+        ST7920_DrawLineHorizontal(x, y + height - i - 1, width);
 
         // horizontal
-        st7920_DrawLineVertical(x + i, y + thickness, height - 2 * thickness);
-        st7920_DrawLineVertical(x + width - i - 1, y + thickness, height - 2 * thickness);
+        ST7920_DrawLineVertical(x + i, y + thickness, height - 2 * thickness);
+        ST7920_DrawLineVertical(x + width - i - 1, y + thickness, height - 2 * thickness);
     }
 }
 
-const u8 st7920_font[2304] = {
+const u8 ST7920_Font[2304] = {
     0x31, 0x00, 0x66, 0x66, 0x18, 0x18, 0x66, 0x66, 0x00, 0x31, 0x00, 0x66, 0x66, 0x18, 0x18, 0x66,
     0x66, 0x00, 0x31, 0x00, 0x66, 0x66, 0x18, 0x18, 0x66, 0x66, 0x00, 0x31, 0x00, 0x66, 0x66, 0x18,
     0x18, 0x66, 0x66, 0x00, 0x31, 0x00, 0x66, 0x66, 0x18, 0x18, 0x66, 0x66, 0x00, 0x31, 0x00, 0x66,

@@ -17,10 +17,10 @@ typedef struct
 
 #define SGPIO_FROM_MACRO(name) ((sgpio){.pin = name ## _Pin, .port = name ## _GPIO_Port})
 
-#define sgpioSet(pGpio, pX) (pGpio)->port->BSRR = (pGpio)->pin << (!(pX) * 16)
-#define sgpioGet(pGpio) ((pGpio)->port->IDR & (pGpio)->pin)
+#define Sgpio_Set(pGpio, pX) (pGpio)->port->BSRR = (pGpio)->pin << (!(pX) * 16)
+#define Sgpio_Get(pGpio) ((pGpio)->port->IDR & (pGpio)->pin)
 
-#define sgpioHigh(g) sgpioSet(g, true)
-#define sgpioLow(g) sgpioSet(g, false)
+#define SGPIO_High(g) Sgpio_Set(g, true)
+#define SGPIO_Low(g) Sgpio_Set(g, false)
 
 #endif //DVD_F411_SMALLGPIO_H

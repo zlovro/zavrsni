@@ -26,4 +26,8 @@ typedef const char *cstr;
 
 #define pstruct __PACKED_STRUCT
 
+#define ARRAY_CNT(a) (sizeof(a) / sizeof(typeof(a[0])))
+#define ARRAY_HALF(a) (a + (ARRAY_CNT(a) / 2))
+#define ARRAY_END(a) (a + ARRAY_CNT(a))
+
 #endif //TYPES_H
