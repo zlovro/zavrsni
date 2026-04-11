@@ -30,7 +30,8 @@ extern u8 ST7920_BackBuf[1024];
 
 extern const u8 ST7920_Font[];
 
-#define ST7920_fontGlyphs ((ST7920_Glyph*) ST7920_Font)
+#define ST7920_FontGlyphs ((ST7920_Glyph*) ST7920_Font)
+#define ST7920_ClearBack() ARRAY_ZERO(ST7920_BackBuf)
 
 extern int ST7920_CursorX, ST7920_CursorY;
 extern int ST7920_OriginX, ST7920_OriginY;
@@ -42,7 +43,6 @@ extern int ST7920_WrapX;
 
 void ST7920_Init(SPI_HandleTypeDef *spi);
 void ST7920_SendCommand(u8 data);
-void ST7920_ClearBack();
 void ST7920_BackToFront();
 void ST7920_SendFrameDMA();
 

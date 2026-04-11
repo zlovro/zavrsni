@@ -76,11 +76,6 @@ void ST7920_SendCommand(u8 data)
     SGPIO_Low(&ST7920_PIN_CS);
 }
 
-void ST7920_ClearBack()
-{
-    memset(ST7920_BackBuf, 0, 1024);
-}
-
 void ST7920_BackToFront()
 {
     // the first byte is the sync byte. skip it.
@@ -104,7 +99,7 @@ void ST7920_SendFrameDMA()
 {
     SGPIO_High(&ST7920_PIN_CS);
 
-    HAL_SPI_Transmit_DMA(ST7920_Spi, ST7920_FrontBuf, 1024 * 3);
+    HAL_SPI_Transmit_DMA(ST7920_Spi, ST7920_FrontBuf, ARRAY_CNT(ST7920_FrontBuf));
 
     SGPIO_Low(&ST7920_PIN_CS);
 }
@@ -149,7 +144,7 @@ void ST7920_PrintfCenteredInRect(char *format, u8 x, u8 y, u8 width, u8 height, 
 
 void ST7920_DrawChar(char chr)
 {
-    ST7920_Glyph *glyph = ST7920_fontGlyphs + chr;
+    ST7920_Glyph *glyph = ST7920_FontGlyphs + chr;
 
     u8 drawingStartEnd = glyph->drawingStartEnd;
 
@@ -232,7 +227,7 @@ void ST7920_DrawStringLenCenteredInRect(char *str, u8 length, u8 x, u8 y, u8 wid
 
         if (c != '\n')
         {
-            ST7920_Glyph *glyph = ST7920_fontGlyphs + c;
+            ST7920_Glyph *glyph = ST7920_FontGlyphs + c;
 
             u8 drawingStartEnd = glyph->drawingStartEnd;
 
@@ -251,8 +246,11 @@ void ST7920_DrawStringLenCenteredInRect(char *str, u8 length, u8 x, u8 y, u8 wid
         }
     }
 
-    f32 marginY = vertically ? (height - pixelHeight) / 2.0F : 0;
-    f32 cursorY = marginY >= 0 ? y + marginY : y;
+    // f32 marginY = vertically ? (height - pixelHeight) / 2.0F : 0;
+    // f32 cursorY = marginY >= 0 ? y + marginY : y;
+
+    int marginY = vertically ? ((int) height - pixelHeight) / 2 : 0;
+    u8  cursorY = marginY >= 0 ? y + marginY : y;
 
     ST7920_CursorY = cursorY;
 
@@ -263,8 +261,8 @@ void ST7920_DrawStringLenCenteredInRect(char *str, u8 length, u8 x, u8 y, u8 wid
     {
         if (line != lastLine)
         {
-            f32 marginX = horizontally ? (width - lineLengths[line]) / 2.0F : 0;
-            f32 cursorX = marginX >= 0 ? x + marginX : x;
+            int marginX = horizontally ? ((int) width - lineLengths[line]) / 2 : 0;
+            u8 cursorX = marginX >= 0 ? x + marginX : x;
 
             // ST7920_DrawRectangle(x, ST7920_CursorY, marginX, ST7920_LINE_HEIGHT, 1);
 
