@@ -4,6 +4,9 @@
 	(generator_version "10.0")
 	(uuid "22cdc1b5-9057-4680-8669-7a02483bacee")
 	(paper "A2")
+	(title_block
+		(date "2026-04-11")
+	)
 	(lib_symbols
 		(symbol "Amplifier_Operational:TL072"
 			(pin_names
@@ -24532,20 +24535,20 @@
 		(file
 			(name "tedo.kicad_wks")
 			(type worksheet)
-			(data |KLUv/WCyDe0TAIZdXCdwbw7t//cBCrAOaE1TEZGtpaNOCC2H9BVzCLvMtpAtyXdOAPQO+AJSAEwA
-				UwD3/1K8+xdLdRjZVovTbvKV5ggzUpAvv1VO28oRJlVxf+r3nf4BABAQeJrvD1LYNJnq1hPOm9jv
-				U2/bFsIVY6wklGxv/bw3A0BA8GU4k41qNTMI0d093m9bY0+l/qfBTMnx4JGTIYVCgbGi4gDw9lYi
-				T8nf9aY48Xf6KT9hNSXD6em4Zqvkp+01Q95se1u/2nMMGfI7/W+auDtqX2vvAo1pGCTlKIhEMddj
-				2vXlY2pBpOqfaU6hVY5+ZcLEue7UwRytfpi4NVrBsJnRUanfNd7UD3UYLssQrcuypBUxSxaqy7Jk
-				xAqXVahiLEgJISUZuzAqAQEhU+3WEr6+uYwIhKmKs639QyFONxqnCRaVmGZApGovHeGMcjcTKs24
-				NWdpfxQufUdUMeuufto9rtzdgpoSSqZiZGrGq9M8TcyYRW5wdrnqAXKg8URraGQkkCAiSdIBkETE
-				pGxzeYFQQBINcfBTUGmDS0wtJm2qA0aTErxDBnhKfi3ngdOd2vyz0wXwvMk3GjwIaEKIiE/NEogW
-				xvQUCXsPRllRBUjGAG6RtapIdByAtWbVmXH9IUoQppejkclWJ5fNXeeiP60IEFaYIq37pC0yCkSE
-				c00O1IZVPNRJqWBu04Z1MDSveG1wt7H/TvrUj6qiMk0+Niq3SGsKPbSVhgJi+nPaj2IF75zhB7s/
-				w+Hf9tma6ZW03pnvvue3anPTJghkLrUJaUFqhP1gDRDkOjL236S0dCQJZxecJLRWKhcLgpHTbxgr
-				qNug5+rEX/8FloOgl3y04I9BrwI=|
+			(data |KLUv/WCuDY0UAPbdXidgdw7dFgWYkSrEh6KmyYiijUVHjtiSpPJVZ/ibzpItyW5NQsHezytUAE4A
+				VACf+38z4H3OpnqUbOvG6Qfzmv4Km8Qic96rorb1K2xYxl2q4Y/6CQBAQACCvsOIRXlhruo15gMv
+				9vvU2/amwEkpsxkn21tD7xABEBCEHhHGo131EAIcApPuTvJ+2x2TNPVDUGebLBWkuXHMZDJRZpgk
+				AN5ejeRtcnjBS178o/7MbzHbJseNNPLO1slPG2yO7Nn2tn67/zhy5Hf64XVxf6j9rj0gp183DLIo
+				VvWv7YWWmH7Ua5Df05qu/4EgXf3oVy5coutOI/zR6oqLu6MaBGJL0FWr3zsO1RKNHDjtIDVO06Ym
+				Edo0ZJymTYkwcJohk9IwZ4zYZEQBQcFTrdcWvh66D8qEsYwTXnuJTpyGQE4ZrGox9VhOUzhBv+tJ
+				tTbp9bdplxgufV9ksj+11A5ydRzmqUFRMDCUSGMyqSxMA+4DesrYZEIyhBP3q96dwwx2oAE5a4hk
+				RCTMJil0gESkxmxzeoFQIAlxHPy0Km2wsgnAqHd18OwOeDAxgTpkgKf2eUkm9BQiFBQeWGgCDYvO
+				ms6wQYKh04wXu/hMRPQjsYcKWIiTUySsPRhlRzIkiUO9RdaoIhFjKCyaVN+UmkOVJoCunIlO7jq5
+				YNr6Ovq5Lng4YYzI2iPVIqigozvX6uia8MoGrfQq1plsXAsD4xKjjM3b/edMmfrQVNYmlI+Nyi3y
+				mksnzWpDAQHdMeVFM0UvHPFBbt/g2mj6tM38Olp3+2vfM1tr8umJA59RRXJKoHpgDAAGCOYvHNBv
+				otseVOZAyYGUFkjK2ogI5HRH7CVqtaiz92FcHySeh6C7HPchHYNVBQ==|
 			)
-			(checksum "3333631DE8E7B4F1081828438516DF91")
+			(checksum "D21EB26DB079DC1D456BF3E4C7A45426")
 		)
 	)
 )

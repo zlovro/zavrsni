@@ -682,7 +682,7 @@
       "version": 1
     },
     "net_format_name": "",
-    "page_layout_descr_file": "kicad-embed://tedo zaglavlje.kicad_wks",
+    "page_layout_descr_file": "kicad-embed://tedo.kicad_wks",
     "plot_directory": "",
     "reuse_designators": true,
     "space_save_all_events": true,
@@ -712,7 +712,7 @@
   ],
   "text_variables": {
     "CRTAO": "Lovro Zednik",
-    "DATUM": "6.12.2025.",
+    "DATUM": "0",
     "IME_TIJELA": "Tehnička škola Daruvar",
     "MJERILO": "1:1",
     "NAZIV": "Pedala multiefekata za\\nelektričnu gitaru",
