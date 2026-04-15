@@ -39,8 +39,8 @@
         "other_text_thickness": 0.15,
         "other_text_upright": false,
         "pads": {
-          "drill": 1.0,
-          "height": 2.2,
+          "drill": 0.8,
+          "height": 2.0,
           "width": 2.54
         },
         "silk_line_width": 0.1,
@@ -66,7 +66,7 @@
       },
       "rule_severities": {
         "annular_width": "error",
-        "clearance": "error",
+        "clearance": "ignore",
         "connection_width": "warning",
         "copper_edge_clearance": "error",
         "copper_sliver": "warning",
@@ -104,7 +104,7 @@
         "padstack": "warning",
         "pth_inside_courtyard": "ignore",
         "shorting_items": "error",
-        "silk_edge_clearance": "warning",
+        "silk_edge_clearance": "ignore",
         "silk_over_copper": "warning",
         "silk_overlap": "warning",
         "skew_out_of_range": "error",
@@ -153,7 +153,7 @@
         {
           "td_onpthpad": true,
           "td_onroundshapesonly": false,
-          "td_onsmdpad": true,
+          "td_onsmdpad": false,
           "td_ontrackend": false,
           "td_onvia": true
         }
@@ -235,6 +235,10 @@
         {
           "diameter": 1.3,
           "drill": 1.0
+        },
+        {
+          "diameter": 2.3,
+          "drill": 0.4
         },
         {
           "diameter": 2.3,
@@ -701,7 +705,7 @@
         "uuid": "22cdc1b5-9057-4680-8669-7a02483bacee"
       }
     ],
-    "used_designators": "",
+    "used_designators": "H8",
     "variants": []
   },
   "sheets": [
